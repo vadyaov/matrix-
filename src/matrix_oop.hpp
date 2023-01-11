@@ -1,15 +1,22 @@
 #ifndef SRC_MATRIX_OOP_HPP
 #define SRC_MATRIX_OOP_HPP
 
+#define INDEX(row, col, col_num) (row * col_num + col)
+
 class S21Matrix {
   public:
+    /* what size ??? */ 
+    /* random value ? mb 1x1 ? */ 
     S21Matrix();
     /* think about 'explicit' key word */
     /* mb it is useful for these constructors */
-    S21Matrix(int rows, int cols);
-    S21Matrix(const S21Matrix& other);
+    explicit S21Matrix(int rows, int cols) : rows_{rows}, cols_{cols},
+                                             matrix_{new double[rows * cols]}
+    {
+    }
+    S21Matrix(const S21Matrix& other); // copy
     S21Matrix(const S21Matrix&& other);
-    ~S21Matrix();
+    ~S21Matrix() { delete[] matrix_; }
 
     bool EqMatrix(const S21Matrix& other) const;
     void SumMatrix(const S21Matrix& other);
@@ -27,9 +34,16 @@ class S21Matrix {
     /* S21Matrix& operator*=(const S21Matrix& other); */
     /* double operator[][](int i, int j); */
 
+    /* -------------------------------------------------------- */
+    /* also need accessors and mutators for private fields */
+    /* something like getRows, gelCols, setRows, setCols; */
+    /* -------------------------------------------------------- */
+    int getRows() const { return rows_; }
+    int getCols() const { return cols_; }
+
   private:
     int rows_, cols_;
-    double **matrix_;
+    double *matrix_;
 };
 
 /* S21Matrix operator+(const S21Matrix& left, const S21Matrix& right); */
