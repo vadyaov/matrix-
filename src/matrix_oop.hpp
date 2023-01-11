@@ -32,7 +32,6 @@ class S21Matrix {
     /* S21Matrix& operator+=(const S21Matrix& other); */
     /* S21Matrix& operator-=(const S21Matrix& other); */
     /* S21Matrix& operator*=(const S21Matrix& other); */
-    /* double operator[][](int i, int j); */
 
     /* -------------------------------------------------------- */
     /* also need accessors and mutators for private fields */
@@ -40,6 +39,8 @@ class S21Matrix {
     /* -------------------------------------------------------- */
     int getRows() const { return rows_; }
     int getCols() const { return cols_; }
+    // this is better than macro because of inlining but mb it somehow can be done by [][] //
+    double index(int row, int col) const {return row * rows_ + col;}
 
   private:
     int rows_, cols_;
