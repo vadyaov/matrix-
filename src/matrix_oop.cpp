@@ -3,6 +3,10 @@
 
 int main() {
   S21Matrix a{2, 3};
-  std::cout << a.getRows() << " " << a.getCols() << std::endl;
+  a.printMatrix();
+  a.setMatrix();
+  a.printMatrix();
+  S21Matrix b{a};
+  b.printMatrix();
   return 0;
 }

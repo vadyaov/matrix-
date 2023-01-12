@@ -1,7 +1,7 @@
 #ifndef SRC_MATRIX_OOP_HPP
 #define SRC_MATRIX_OOP_HPP
 
-#define INDEX(row, col, col_num) (row * col_num + col)
+#include <iostream>
 
 class S21Matrix {
   public:
@@ -11,10 +11,15 @@ class S21Matrix {
     /* think about 'explicit' key word */
     /* mb it is useful for these constructors */
     explicit S21Matrix(int rows, int cols) : rows_{rows}, cols_{cols},
-                                             matrix_{new double[rows * cols]}
+                                             matrix_{new double[rows * cols]()}
     {
     }
-    S21Matrix(const S21Matrix& other); // copy
+    S21Matrix(const S21Matrix& other) : rows_{other.getRows()}, cols_{other.getCols()},
+                                        matrix_{new double[rows_ * cols_]} {
+      for (int i = 0; i < rows_; i++)
+        for (int j = 0; j < cols_; j++)
+          matrix_[index(i, j)] = other.at(i, j);
+    }
     S21Matrix(const S21Matrix&& other);
     ~S21Matrix() { delete[] matrix_; }
 
@@ -39,8 +44,25 @@ class S21Matrix {
     /* -------------------------------------------------------- */
     int getRows() const { return rows_; }
     int getCols() const { return cols_; }
-    // this is better than macro because of inlining but mb it somehow can be done by [][] //
-    double index(int row, int col) const {return row * rows_ + col;}
+    double at(int i, int j) const { return matrix_[index(i, j)]; }
+    // this is better than macro because of inlining
+    int index(int row, int col) const {return row + rows_ * col;}
+
+    //debug help
+    void setMatrix() {
+      for (int i = 0; i < rows_; i++)
+        for (int j = 0; j < cols_; j++)
+          std::cin >> matrix_[index(i, j)];
+    }
+
+    void printMatrix() {
+      for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < cols_; j++) {
+          std::cout << matrix_[index(i, j)] << " ";
+        }
+        std::cout << std::endl;
+      }
+    }
 
   private:
     int rows_, cols_;
