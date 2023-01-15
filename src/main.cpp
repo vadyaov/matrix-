@@ -1,11 +1,16 @@
 #include "matrix_oop.hpp"
 
 int main() {
-  S21Matrix a;
+  try {
+  S21Matrix a{2, -1};
   std::cout << a;
   std::cin >> a;
   std::cout << a;
-  S21Matrix b{a};
-  b.printMatrix();
+  S21Matrix b = a;
+  std::cout << b;
+  }
+  catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << std::endl;
+  }
   return 0;
 }
