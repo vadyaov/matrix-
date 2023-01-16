@@ -2,23 +2,15 @@
 #define SRC_MATRIX_OOP_HPP
 
 #include <iostream>
+#include <cstring>
 
 class S21Matrix {
   public:
-    S21Matrix() : rows_{1}, cols_{1}, matrix_{new double()} {}
-    explicit S21Matrix(int rows, int cols);
-    S21Matrix(const S21Matrix& other) : rows_{other.getRows()}, cols_{other.getCols()},
-                                        matrix_{new double[rows_ * cols_]}
-    {
-      for (int i = 0; i < rows_; i++)
-        for (int j = 0; j < cols_; j++)
-          matrix_[index(i, j)] = other.at(i, j);
-    }
-    S21Matrix(const S21Matrix&& other) noexcept;
-    ~S21Matrix() {
-      if (matrix_)
-        delete[] matrix_;
-    }
+    S21Matrix();
+    explicit S21Matrix(int, int);
+    explicit S21Matrix(const S21Matrix&);
+    S21Matrix(const S21Matrix&&) noexcept;
+    ~S21Matrix();
 
     bool EqMatrix(const S21Matrix& other) const;
     void SumMatrix(const S21Matrix& other);
@@ -46,9 +38,7 @@ class S21Matrix {
       return matrix_[index(i, j)];
     }
     // this is better than macro because of inlining
-    int index(int row, int col) const {return row + rows_ * col;}
-
-    //debug help
+    size_t index(int row, int col) const {return col + cols_ * row;}
 
   private:
     int rows_, cols_;
