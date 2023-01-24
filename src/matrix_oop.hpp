@@ -3,14 +3,27 @@
 
 #include <iostream>
 #include <cstring>
+#include <memory>
+//#include <exception>
 
 class S21Matrix {
   public:
     S21Matrix();
-    explicit S21Matrix(int, int);
-    explicit S21Matrix(const S21Matrix&);
-    S21Matrix(const S21Matrix&&) noexcept;
-    ~S21Matrix();
+
+    explicit S21Matrix(int, int); // +
+    constexpr int getRows() const /*noexcept*/ { return rows_; }
+    constexpr int getCols() const /*noexcept*/ { return cols_; }
+    constexpr int size() const /*noexcept*/ { return rows_ * cols_; }
+
+    /*explicit*/ S21Matrix(const S21Matrix&); // +
+    S21Matrix(S21Matrix&&) noexcept; // +
+
+    // присваивание копированием: очистка целевого объекта и копирование
+    S21Matrix& operator=(const S21Matrix& other); // + 
+    // перемещающее присванивание: очистка целевого объекта и перемещение
+    S21Matrix& operator=(S21Matrix&& other); // + 
+
+    ~S21Matrix(); // +
 
     bool EqMatrix(const S21Matrix& other) const;
     void SumMatrix(const S21Matrix& other);
@@ -22,17 +35,16 @@ class S21Matrix {
     double Determinant() const;
     S21Matrix InverseMatrix() const;
 
-    S21Matrix& operator=(const S21Matrix& other);
-    S21Matrix& operator+=(const S21Matrix& other);
-    S21Matrix& operator-=(const S21Matrix& other);
+
+    S21Matrix& operator+=(const S21Matrix& other); // +
+    S21Matrix& operator-=(const S21Matrix& other); // +
     S21Matrix& operator*=(const S21Matrix& other);
+    S21Matrix operator-() const;
 
-    int getRows() const noexcept { return rows_; }
-    int getCols() const noexcept { return cols_; }
-    void setRows(int rows);
-    void setCols(int cols);
+    void setRows(int rows); // RowMutator
+    void setCols(int cols); // ColMutator
 
-    /* to access/set [i][j] element */
+    /* to access/set [i][j] element DEBUG STUFF ONLY */
     double& at(int i, int j) const {
       // throw exception for incorrect i or j
       return matrix_[index(i, j)];
@@ -45,8 +57,9 @@ class S21Matrix {
     double *matrix_;
 };
 
-/* S21Matrix operator+(const S21Matrix& left, const S21Matrix& right); */
-/* S21Matrix operator-(const S21Matrix& left, const S21Matrix& right); */
+S21Matrix operator+(const S21Matrix& left, const S21Matrix& right); // +
+S21Matrix operator-(const S21Matrix& left, const S21Matrix& right); // +
+
 /* S21Matrix operator*(const S21Matrix& left, const S21Matrix& right); */
 /* S21Matrix operator*(const S21Matrix& left, const double n); */
 bool operator==(const S21Matrix& a, const S21Matrix& b);
