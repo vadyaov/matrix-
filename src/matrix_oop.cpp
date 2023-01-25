@@ -1,4 +1,4 @@
-#include "matrix_oop.hpp"
+#include "matrix_oop.h"
 
 S21Matrix::S21Matrix() : rows_{1},
                          cols_{1},
@@ -98,11 +98,54 @@ S21Matrix operator-(const S21Matrix& left, const S21Matrix& right) {
   return res -= right; // доступ к представлению через +=
 }
 
+// mb this is not the best idea of implementation mutators but it works
+// think how to do it better if possible
+// dont't like calling destructor
+void S21Matrix::setRows(int rows) {
+  if (rows <= 0)
+    throw std::runtime_error("bad rows in setRows()");
+  else if (rows != rows_) {
+    rows_ = rows;
+    S21Matrix tmp {rows_, cols_};
+    for (auto i = 0; i < rows_; i++)
+      for (auto j = 0; j < cols_; j++)
+        tmp.matrix_[index(i, j)] = matrix_[index(i, j)];
 
+    this->~S21Matrix();
+    matrix_ = new double[rows_ * cols_];
 
+    /* std::cout << "\n" << "tmp:\n" << tmp << std::endl; */
 
+    for (auto i = 0; i < rows_; i++)
+      for (auto j = 0; j < cols_; j++) {
+        /* std::cout << i << j << " " << index(i, j) << std::endl; */
+        matrix_[index(i, j)] = tmp.matrix_[index(i, j)];
+      }
+  }
+}
 
+void S21Matrix::setCols(int cols) {
+  if (cols <= 0)
+    throw std::runtime_error("bad cols in setCols()");
+  else if (cols != cols_) {
+    cols_ = cols;
+    S21Matrix tmp {rows_, cols_};
+    for (auto i = 0; i < rows_; i++)
+      for (auto j = 0; j < cols_; j++) {
+        /* std::cout << i << j << " " << index(i, j) << std::endl; */
+        tmp.matrix_[index(i, j)] = matrix_[index(i, j)];
+      }
 
+    /* std::cout << "\n" << "tmp:\n" << tmp << std::endl; */
+
+    this->~S21Matrix();
+    matrix_ = new double[rows_ * cols_];
+
+    for (auto i = 0; i < rows_; i++)
+      for (auto j = 0; j < cols_; j++)
+        matrix_[index(i, j)] = tmp.matrix_[index(i, j)];
+  }
+}
 
 
 
