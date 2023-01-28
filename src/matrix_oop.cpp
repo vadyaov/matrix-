@@ -27,12 +27,11 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   std::cout << "Copy operator= is called" << std::endl;
   /* S21Matrix tmp {other}; */
   /* std::swap(tmp, *this); */
-  
-   /* need to check the dimensions
-      (A = B)
-              A < B --> increase A than copy
-              A > B --> copy then decrease || decrease than copy
-    */
+  if (rows_ != other.rows_)
+    setRows(other.rows_);
+  if (cols_ != other.cols_)
+    setCols(other.cols_);
+
   std::copy(other.matrix_, other.matrix_ + other.size(), matrix_);
   return *this;
 }
@@ -60,7 +59,6 @@ S21Matrix& S21Matrix::operator=(S21Matrix&& other) {
 }
 
 S21Matrix::~S21Matrix() {
- // will be null only if i make default constructor with 0,0, nullptr fields! so make this or delete line below
   if (matrix_)
     delete[] matrix_;
 }
@@ -88,6 +86,9 @@ S21Matrix S21Matrix::operator-() const {
   return tmp;
 }
 
+S21Matrix& S21Matrix::operator*=(const S21Matrix& other) {
+}
+
 S21Matrix operator+(const S21Matrix& left, const S21Matrix& right) {
   S21Matrix res {left};
   return res += right; // доступ к представлению через +=
@@ -100,27 +101,44 @@ S21Matrix operator-(const S21Matrix& left, const S21Matrix& right) {
 
 // mb this is not the best idea of implementation mutators but it works
 // think how to do it better if possible
-// dont't like calling destructor
+// doesn't enjoy calling destructor int resize()
+
+bool S21Matrix::EqMatrix(const S21Matrix& other) const {
+  bool size = cols_ == other.cols_ && rows_ == other.rows_;
+  if (size) {
+    double *m1 = matrix_;
+    double *m2 = other.matrix_;
+    double *end = matrix_ + this->size();
+
+    while (m1 != end && size)
+      size = std::fabs(*m1++ - *m2++) < EPS;
+  }
+  return size;
+}
+
+void S21Matrix::SumMatrix(const S21Matrix& other) {
+  *this += other;
+}
+
+void S21Matrix::SubMatrix(const S21Matrix& other) {
+  *this -= other;
+}
+
+bool operator==(const S21Matrix& a, const S21Matrix& b) {
+  return a.EqMatrix(b);
+}
+
+S21Matrix operator*(const S21Matrix& left, const double n) {
+  S21Matrix tmp{left};
+
+}
+
 void S21Matrix::setRows(int rows) {
   if (rows <= 0)
     throw std::runtime_error("bad rows in setRows()");
   else if (rows != rows_) {
     rows_ = rows;
-    S21Matrix tmp {rows_, cols_};
-    for (auto i = 0; i < rows_; i++)
-      for (auto j = 0; j < cols_; j++)
-        tmp.matrix_[index(i, j)] = matrix_[index(i, j)];
-
-    this->~S21Matrix();
-    matrix_ = new double[rows_ * cols_];
-
-    /* std::cout << "\n" << "tmp:\n" << tmp << std::endl; */
-
-    for (auto i = 0; i < rows_; i++)
-      for (auto j = 0; j < cols_; j++) {
-        /* std::cout << i << j << " " << index(i, j) << std::endl; */
-        matrix_[index(i, j)] = tmp.matrix_[index(i, j)];
-      }
+    resize();
   }
 }
 
@@ -129,26 +147,23 @@ void S21Matrix::setCols(int cols) {
     throw std::runtime_error("bad cols in setCols()");
   else if (cols != cols_) {
     cols_ = cols;
-    S21Matrix tmp {rows_, cols_};
-    for (auto i = 0; i < rows_; i++)
-      for (auto j = 0; j < cols_; j++) {
-        /* std::cout << i << j << " " << index(i, j) << std::endl; */
-        tmp.matrix_[index(i, j)] = matrix_[index(i, j)];
-      }
-
-    /* std::cout << "\n" << "tmp:\n" << tmp << std::endl; */
-
-    this->~S21Matrix();
-    matrix_ = new double[rows_ * cols_];
-
-    for (auto i = 0; i < rows_; i++)
-      for (auto j = 0; j < cols_; j++)
-        matrix_[index(i, j)] = tmp.matrix_[index(i, j)];
+    resize();
   }
 }
 
+void S21Matrix::resize() noexcept {
+  S21Matrix tmp {rows_, cols_};
+  for (auto i = 0; i < rows_; i++)
+    for (auto j = 0; j < cols_; j++)
+      tmp.matrix_[index(i, j)] = matrix_[index(i, j)];
 
+  this->~S21Matrix();
+  matrix_ = new double[rows_ * cols_];
 
+  for (auto i = 0; i < rows_; i++)
+    for (auto j = 0; j < cols_; j++)
+      matrix_[index(i, j)] = tmp.matrix_[index(i, j)];
+}
 
 // ----------------------- DEBUG -------------------------- //
 
