@@ -120,16 +120,16 @@ S21Matrix operator-(const S21Matrix& left, const S21Matrix& right) {
 }
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) const noexcept {
-  bool size = cols_ == other.cols_ && rows_ == other.rows_;
-  if (size) {
+  bool sz = cols_ == other.cols_ && rows_ == other.rows_;
+  if (sz) {
     double *m1 = matrix_;
     double *m2 = other.matrix_;
     double *end = matrix_ + this->size();
 
-    while (m1 != end && size)
-      size = std::fabs(*m1++ - *m2++) < EPS;
+    while (m1 != end && sz)
+      sz = std::fabs(*m1++ - *m2++) < EPS;
   }
-  return size;
+  return sz;
 }
 
 void S21Matrix::SumMatrix(const S21Matrix& other) {
@@ -138,6 +138,59 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
 
 void S21Matrix::SubMatrix(const S21Matrix& other) {
   *this -= other;
+}
+
+S21Matrix S21Matrix::Transpose() const {
+  S21Matrix res{cols_, rows_};
+  for (auto i = 0; i < res.rows_; i++)
+    for (auto j = 0; j< res.cols_; j++)
+      res.at(i, j) = this->at(j, i);
+  return res;
+}
+
+S21Matrix S21Matrix::CalcComplements() const {
+  if (rows_ != cols_)
+    throw std::runtime_error("not square matrix in S21Matrix::CalcComplements()");
+  if (rows_ == 1)
+    throw std::runtime_error("no complements for 1x1 matrix in S21Matrix::CalcComplements()");
+
+  S21Matrix res{rows_, cols_};
+  if (rows_ == 2)
+    res = SimpleMinor(*this);
+  else {
+    for (auto i = 0; i < rows_; i++)
+      for (auto j = 0; j < cols_; j++)
+        res.at(i, j) = CalcMinor(*this, i, j) * std::pow(-1.0, i + j);
+  }
+  return res;
+}
+
+double S21Matrix::Determinant() const {
+  if (rows_ != cols_)
+    throw std::runtime_error("rows_ != cols_ in S21Matrix::Determinant()");
+  double det = 0.0;
+  if (rows_ == 1)
+    det = this->at(0, 0);
+  else
+    det = Det(*this);
+  return det;
+}
+
+S21Matrix S21Matrix::InverseMatrix() const {
+  double det = this->Determinant();
+  if (std::fabs(det) < EPS)
+    throw std::runtime_error("this->Determinant() is 0 in S21Matrix::InverseMatrix()");
+  S21Matrix res;
+  if (rows_ == 1) {
+    res = S21Matrix{1, 1};
+    res.at(0, 0) = 1.0 / det;
+  } else {
+    S21Matrix transpose = this->Transpose();
+    S21Matrix calc_comp = transpose.CalcComplements();
+    calc_comp.MulNumber(1.0 / det);
+    res = calc_comp;
+  }
+  return res;
 }
 
 bool operator==(const S21Matrix& a, const S21Matrix& b) {
@@ -183,4 +236,8 @@ void S21Matrix::setCols(int cols) {
     cols_ = cols;
     resize();
   }
+}
+
+double& S21Matrix::operator()(int row, int col) const {
+  return matrix_[col + cols_ * row];
 }

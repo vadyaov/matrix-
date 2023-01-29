@@ -7,8 +7,8 @@ void f(S21Matrix&& a) {
 
 int main() {
   try {
-  S21Matrix a{2, 4};
-  S21Matrix b{4, 2};
+  S21Matrix a{4, 4};
+  S21Matrix b{3, 3};
 
   std::cout << "a:" << std::endl;
   std::cin >> a;
@@ -22,19 +22,11 @@ int main() {
   std::cout << "b:" << std::endl;
   std::cout << b;
 
-  if (a == b)
-    std::cout << "a == b" << std::endl;
-  else
-    std::cout << "a != b" << std::endl;
+  S21Matrix inv = a.InverseMatrix();
 
-  a *= b;
-  std::cout << "after *=: " << std::endl;
-  std::cout << a;
+  std::cout << "inverse: " << std::endl;
+  std::cout << inv;
 
-  S21Matrix c = a * -a;
-  std::cout << c;
-
-  f(S21Matrix(1, 2));
   } catch (std::exception& e) {
     std::cerr << "Exception: " << e.what() << std::endl;
   }
