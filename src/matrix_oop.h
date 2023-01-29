@@ -22,15 +22,16 @@ class S21Matrix {
     S21Matrix(S21Matrix&&) noexcept; // +
 
     S21Matrix& operator=(const S21Matrix& other); // + 
-    S21Matrix& operator=(S21Matrix&& other); // + 
+    S21Matrix& operator=(S21Matrix&& other) noexcept; // + 
 
     ~S21Matrix(); // +
 
-    bool EqMatrix(const S21Matrix& other) const; // +
+    bool EqMatrix(const S21Matrix& other) const noexcept; // +
     void SumMatrix(const S21Matrix& other); // +
     void SubMatrix(const S21Matrix& other); // +
-    void MulNumber(const double num);
-    void MulMatrix(const S21Matrix& other);
+    void MulNumber(const double num) noexcept; // +
+    void MulMatrix(const S21Matrix& other); // +
+
     S21Matrix Transpose() const;
     S21Matrix CalcComplements() const;
     double Determinant() const;
@@ -39,20 +40,25 @@ class S21Matrix {
 
     S21Matrix& operator+=(const S21Matrix& other); // +
     S21Matrix& operator-=(const S21Matrix& other); // +
-    S21Matrix& operator*=(const S21Matrix& other);
-    S21Matrix operator-() const;
+    S21Matrix& operator*=(const S21Matrix& other); // +
 
-    void resize() noexcept;
+    S21Matrix operator-() const; // +
+    S21Matrix& operator*=(const double) noexcept; // +
+
+    void resize();
     void setRows(int rows); // RowMutator
     void setCols(int cols); // ColMutator
 
-    /* to access/set [i][j] element DEBUG STUFF ONLY */
+    /* to access/set [i][j] element */
     double& at(int i, int j) const {
-      // throw exception for incorrect i or j
-      return matrix_[index(i, j)];
+      if (i >= rows_ || j >= cols_)
+        throw std::out_of_range("Incorrect index in S21Matrix at(i, j)");
+      return this->operator()(i, j);
     }
     // this is better than macro because of inlining
-    size_t index(int row, int col) const {return col + cols_ * row;}
+    // UPD: OK mb it will be done by operator (i, j) from task --> same thing as line below
+    /* constexpr size_t index(int row, int col) const {return col + cols_ * row;} */
+    double& operator()(int row, int col) const {return matrix_[col + cols_ * row];};
 
   private:
     int rows_, cols_;
@@ -62,10 +68,14 @@ class S21Matrix {
 S21Matrix operator+(const S21Matrix& left, const S21Matrix& right); // +
 S21Matrix operator-(const S21Matrix& left, const S21Matrix& right); // +
 
-/* S21Matrix operator*(const S21Matrix& left, const S21Matrix& right); */
+S21Matrix operator*(const S21Matrix& left, const S21Matrix& right);
 S21Matrix operator*(const S21Matrix& left, const double n);
 bool operator==(const S21Matrix& a, const S21Matrix& b); // +
 
+// for matrix multiplication
+double multiply(int i, int j, const S21Matrix& left, const S21Matrix& right);
+
+// for cout and cin
 std::ostream& operator<<(std::ostream& os, const S21Matrix& m);
 std::istream& operator>>(std::istream& is, const S21Matrix& m);
 
