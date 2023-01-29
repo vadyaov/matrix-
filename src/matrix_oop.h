@@ -12,11 +12,13 @@ class S21Matrix {
   public:
     S21Matrix();
     ~S21Matrix();
-    explicit S21Matrix(int, int); // + explicit - конструктор используется лишь для инициализации и явных приведений типа
+    /* explicit - конструктор используется лишь для инициализации и явных приведений типа */
+    explicit S21Matrix(const int, const int); // + 
 
-    int getRows() const noexcept;
-    int getCols() const noexcept;
-    int size() const noexcept;
+    /* compiler error when constexpr. why ? */
+    /* constexpr */ int getRows() const noexcept;
+    /* constexpr */ int getCols() const noexcept;
+    constexpr int size() const noexcept;
 
     S21Matrix(const S21Matrix&); // +
     S21Matrix(S21Matrix&&) noexcept; // +
@@ -59,7 +61,8 @@ S21Matrix operator*(const S21Matrix& left, const S21Matrix& right); // +
 S21Matrix operator*(const S21Matrix& left, const double n); // +
 bool operator==(const S21Matrix& a, const S21Matrix& b); // +
 
-// for matrix multiplication
+// UNSAFE!!! HELP FUNCTIONS
+// the question is how to protect them from user ??
 double multiply(int i, int j, const S21Matrix& left, const S21Matrix& right);
 S21Matrix SimpleMinor(const S21Matrix&);
 double CalcMinor(const S21Matrix&, const int i, const int j);

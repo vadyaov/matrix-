@@ -1,11 +1,5 @@
 #include "matrix_oop.h"
 
-int S21Matrix::getRows() const noexcept { return rows_; }
-
-int S21Matrix::getCols() const noexcept { return cols_; }
-
-int S21Matrix::size() const noexcept { return rows_ * cols_; }
-
 // imho it would be better to be private function but task doesn't allow
 void S21Matrix::resize() {
   S21Matrix tmp {rows_, cols_};

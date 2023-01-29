@@ -6,7 +6,7 @@ S21Matrix::S21Matrix() : rows_{1},
   std::cout << "Default constructor is called" << std::endl;
 }
 
-S21Matrix::S21Matrix(int rows, int cols) {
+S21Matrix::S21Matrix(const int rows, const int cols) {
   std::cout << "Param constructor is called for rows " << rows << " and cols " << cols << std::endl;
   if (rows < 0 || cols < 0)
     // mb i need my own exceptions ???
@@ -216,6 +216,12 @@ void S21Matrix::MulNumber(const double num) noexcept {
 void S21Matrix::MulMatrix(const S21Matrix& other) {
   *this *= other;
 }
+
+/* constexpr */ int S21Matrix::getRows() const noexcept { return rows_; }
+
+/* constexpr */ int S21Matrix::getCols() const noexcept { return cols_; }
+
+constexpr int S21Matrix::size() const noexcept { return rows_ * cols_; }
 
 // mb this is not the best idea of implementation mutators but it works
 // think how to do it better if possible because
