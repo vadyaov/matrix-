@@ -11,7 +11,7 @@
 class S21Matrix {
   public:
     S21Matrix();
-
+    ~S21Matrix();
     explicit S21Matrix(int, int); // + explicit - конструктор используется лишь для инициализации и явных приведений типа
 
     int getRows() const noexcept;
@@ -23,8 +23,6 @@ class S21Matrix {
 
     S21Matrix& operator=(const S21Matrix&); // + 
     S21Matrix& operator=(S21Matrix&&) noexcept; // + 
-
-    ~S21Matrix(); // +
 
     bool EqMatrix(const S21Matrix&) const noexcept; // +
     void SumMatrix(const S21Matrix&); // +
@@ -43,18 +41,13 @@ class S21Matrix {
 
     S21Matrix operator-() const; // +
     S21Matrix& operator*=(const double) noexcept; // +
-    double& operator()(int row, int col) const; // +
+    /* to access/set [i][j] element */
+    double& operator()(const int, const int) const; // +
 
     void resize();
     void setRows(const int); // RowMutator
     void setCols(const int); // ColMutator
 
-    /* to access/set [i][j] element */
-    double& at(const int i, const int j) const;
-
-    // this is better than macro because of inlining
-    // UPD: OK mb it will be done by operator (i, j) from task --> same thing as line below
-    /* constexpr size_t index(int row, int col) const {return col + cols_ * row;} */
   private:
     int rows_, cols_;
     double *matrix_;

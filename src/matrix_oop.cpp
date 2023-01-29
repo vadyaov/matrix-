@@ -98,7 +98,7 @@ S21Matrix& S21Matrix::operator*=(const S21Matrix& other) {
   S21Matrix res{rows_, other.cols_};
   for (auto i = 0; i < res.rows_; i++)
     for (auto j = 0; j < res.cols_; j++)
-      res.at(i, j) = multiply(i, j, *this, other);
+      res(i, j) = multiply(i, j, *this, other);
   *this = res;
   return *this;
 }
@@ -144,7 +144,7 @@ S21Matrix S21Matrix::Transpose() const {
   S21Matrix res{cols_, rows_};
   for (auto i = 0; i < res.rows_; i++)
     for (auto j = 0; j< res.cols_; j++)
-      res.at(i, j) = this->at(j, i);
+      res(i, j) = this->operator()(j, i);
   return res;
 }
 
@@ -160,7 +160,7 @@ S21Matrix S21Matrix::CalcComplements() const {
   else {
     for (auto i = 0; i < rows_; i++)
       for (auto j = 0; j < cols_; j++)
-        res.at(i, j) = CalcMinor(*this, i, j) * std::pow(-1.0, i + j);
+        res(i, j) = CalcMinor(*this, i, j) * std::pow(-1.0, i + j);
   }
   return res;
 }
@@ -170,7 +170,7 @@ double S21Matrix::Determinant() const {
     throw std::runtime_error("rows_ != cols_ in S21Matrix::Determinant()");
   double det = 0.0;
   if (rows_ == 1)
-    det = this->at(0, 0);
+    det = this->operator()(0, 0);
   else
     det = Det(*this);
   return det;
@@ -183,7 +183,7 @@ S21Matrix S21Matrix::InverseMatrix() const {
   S21Matrix res;
   if (rows_ == 1) {
     res = S21Matrix{1, 1};
-    res.at(0, 0) = 1.0 / det;
+    res(0, 0) = 1.0 / det;
   } else {
     S21Matrix transpose = this->Transpose();
     S21Matrix calc_comp = transpose.CalcComplements();
@@ -239,5 +239,7 @@ void S21Matrix::setCols(int cols) {
 }
 
 double& S21Matrix::operator()(int row, int col) const {
+  if (row >= rows_ || col >= cols_ || row < 0 || col < 0)
+    throw std::out_of_range("Incorrect index in S21Matrix operator()(i, j)");
   return matrix_[col + cols_ * row];
 }
