@@ -1,4 +1,4 @@
-#include "matrix_oop.h"
+#include "../inc/s21_matrix_oop.h"
 
 // imho it would be better to be private function but task doesn't allow
 void S21Matrix::resize() {

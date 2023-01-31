@@ -7,20 +7,15 @@ void f(S21Matrix&& a) {
 
 int main() {
   try {
-  S21Matrix a{4, 4};
-  S21Matrix b{3, 3};
+  S21Matrix a{4, -4};
+  std::cout << a.getRows() << " " << a.getCols() << std::endl;
 
   std::cout << "a:" << std::endl;
   std::cin >> a;
-  std::cout << "b:" << std::endl;
-  std::cin >> b;
 
   std::cout << std::endl;
   std::cout << "a:" << std::endl;
   std::cout << a;
-  std::cout << std::endl;
-  std::cout << "b:" << std::endl;
-  std::cout << b;
 
   S21Matrix inv = a.InverseMatrix();
 
