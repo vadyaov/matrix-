@@ -1,5 +1,5 @@
-#ifndef SRC_MATRIX_OOP_HPP
-#define SRC_MATRIX_OOP_HPP
+#ifndef SRC_MATRIX_OOP_H
+#define SRC_MATRIX_OOP_H
 
 #include <iostream>
 #include <cstring>
@@ -18,7 +18,7 @@ class S21Matrix {
     /* compiler error when constexpr. why ? */
     /* constexpr */ int getRows() const noexcept;
     /* constexpr */ int getCols() const noexcept;
-    constexpr int size() const noexcept;
+    /* constexpr */ int size() const noexcept;
 
     S21Matrix(const S21Matrix&); // +
     S21Matrix(S21Matrix&&) noexcept; // +
@@ -73,4 +73,4 @@ double Det(const S21Matrix&);
 std::ostream& operator<<(std::ostream& os, const S21Matrix& m);
 std::istream& operator>>(std::istream& is, const S21Matrix& m);
 
-#endif /* SRC_MATRIX_OOP_HPP */
+#endif  // SRC_MATRIX_OOP_H

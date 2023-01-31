@@ -221,7 +221,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
 
 /* constexpr */ int S21Matrix::getCols() const noexcept { return cols_; }
 
-constexpr int S21Matrix::size() const noexcept { return rows_ * cols_; }
+/* constexpr */ int S21Matrix::size() const noexcept { return rows_ * cols_; }
 
 // mb this is not the best idea of implementation mutators but it works
 // think how to do it better if possible because
