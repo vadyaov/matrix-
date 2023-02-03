@@ -1,6 +1,6 @@
 #include "../inc/s21_matrix_oop.h"
 
-double multiply(const int i, const int j, const S21Matrix& left, const S21Matrix& right) {
+double multiply(const S21Matrix& left, const S21Matrix& right, const int i, const int j) {
   double ij{0.0};
   for (auto k = 0; k < left.getCols(); ++k)
     ij += left(i, k) * right(k, j);

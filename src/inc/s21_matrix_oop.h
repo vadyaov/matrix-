@@ -49,29 +49,28 @@ class S21Matrix {
 // представлением объекта. Нужно стараться определять внутри класса только те методы, которые неизбежно
 // модифицируют зачение первого аргумента
 
-S21Matrix operator-(const S21Matrix& a);
+S21Matrix operator-(const S21Matrix&);
+S21Matrix& operator+=(S21Matrix&, const S21Matrix&);
+S21Matrix& operator-=(S21Matrix&, const S21Matrix&);
+S21Matrix& operator*=(S21Matrix&, const S21Matrix&);
+S21Matrix& operator*=(S21Matrix&, const double) noexcept;
 
-S21Matrix& operator+=(S21Matrix& a, const S21Matrix& b);
-S21Matrix& operator-=(S21Matrix& a, const S21Matrix& b);
-S21Matrix& operator*=(S21Matrix& a, const S21Matrix& b);
-S21Matrix& operator*=(S21Matrix& a, const double n) noexcept;
-
-S21Matrix operator+(const S21Matrix& left, const S21Matrix& right);
-S21Matrix operator-(const S21Matrix& left, const S21Matrix& right);
-S21Matrix operator*(const S21Matrix& left, const S21Matrix& right);
-S21Matrix operator*(const S21Matrix& left, const double n);
-bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept;
+S21Matrix operator+(const S21Matrix&, const S21Matrix&);
+S21Matrix operator-(const S21Matrix&, const S21Matrix&);
+S21Matrix operator*(const S21Matrix&, const S21Matrix&);
+S21Matrix operator*(const S21Matrix&, const double);
+bool operator==(const S21Matrix&, const S21Matrix&) noexcept;
 
 // UNSAFE!!! HELP FUNCTIONS
 // the question is how to protect them from user ??
-double multiply(const int i, const int j, const S21Matrix& left, const S21Matrix& right);
+double multiply(const S21Matrix&, const S21Matrix&, const int, const int);
 S21Matrix SimpleMinor(const S21Matrix&);
-double CalcMinor(const S21Matrix&, const int i, const int j);
-S21Matrix CreateSmaller(const S21Matrix&, const int i, const int j);
+double CalcMinor(const S21Matrix&, const int, const int);
+S21Matrix CreateSmaller(const S21Matrix&, const int, const int);
 double Det(const S21Matrix&);
 
 // for cout and cin
-std::ostream& operator<<(std::ostream& os, const S21Matrix& m);
-std::istream& operator>>(std::istream& is, const S21Matrix& m);
+std::ostream& operator<<(std::ostream&, const S21Matrix&);
+std::istream& operator>>(std::istream&, const S21Matrix&);
 
 #endif  // MATRIXPLUS_LIB_S21_MATRIX_OOP_H
