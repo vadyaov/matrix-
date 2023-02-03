@@ -37,7 +37,7 @@ class S21Matrix {
 
     void setRows(const int);
     void setCols(const int);
-    void resize();
+    void resize(int, int);
 
     ~S21Matrix();
   private:
@@ -64,7 +64,7 @@ bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept;
 
 // UNSAFE!!! HELP FUNCTIONS
 // the question is how to protect them from user ??
-double multiply(int i, int j, const S21Matrix& left, const S21Matrix& right);
+double multiply(const int i, const int j, const S21Matrix& left, const S21Matrix& right);
 S21Matrix SimpleMinor(const S21Matrix&);
 double CalcMinor(const S21Matrix&, const int i, const int j);
 S21Matrix CreateSmaller(const S21Matrix&, const int i, const int j);

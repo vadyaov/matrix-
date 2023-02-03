@@ -1,8 +1,8 @@
 #include "../inc/s21_matrix_oop.h"
 
-double multiply(int i, int j, const S21Matrix& left, const S21Matrix& right) {
+double multiply(const int i, const int j, const S21Matrix& left, const S21Matrix& right) {
   double ij{0.0};
-  for (auto k = 0; k < left.getCols(); k++)
+  for (auto k = 0; k < left.getCols(); ++k)
     ij += left(i, k) * right(k, j);
   return ij;
 }
@@ -25,14 +25,14 @@ double CalcMinor(const S21Matrix& other, const int i, const int j) {
 S21Matrix CreateSmaller(const S21Matrix& other, const int i, const int j) {
   S21Matrix smaller {other.getRows() - 1, other.getCols() - 1};
   auto sz = other.getRows();
-  for (auto k = 0, n = 0; k < sz; k++) {
+  for (auto k = 0, n = 0; k < sz; ++k) {
     if (i == k) continue;
-    for (auto l = 0, m = 0; l < sz; l++) {
+    for (auto l = 0, m = 0; l < sz; ++l) {
       if (l == j) continue;
       smaller(n, m) = other(k, l);
-      m++;
+      ++m;
     }
-    n++;
+    ++n;
   }
   return smaller;
 }
@@ -41,18 +41,18 @@ double Det(const S21Matrix& other) {
   double det = 0.0;
   if (other.getRows() == 2) {
     det = other(0, 0) * other(1, 1) - other(0, 1) * other(1, 0);
-    return det;
-  }
-  for (auto j = 0; j < other.getCols(); j++) {
-    S21Matrix smaller = CreateSmaller(other, 0, j);
-    det += std::pow(-1.0, j) * Det(smaller) * other(0, j);
+  } else {
+    for (auto j = 0; j < other.getCols(); j++) {
+      S21Matrix smaller = CreateSmaller(other, 0, j);
+      det += std::pow(-1.0, j) * Det(smaller) * other(0, j);
+    }
   }
   return det;
 }
 
 std::ostream& operator<<(std::ostream& os, const S21Matrix& m) {
-  for (int i = 0; i < m.getRows(); i++) {
-    for (int j = 0; j < m.getCols(); j++) {
+  for (int i = 0; i < m.getRows(); ++i) {
+    for (int j = 0; j < m.getCols(); ++j) {
       os << m(i, j) << " ";
     }
     os << std::endl;
@@ -61,8 +61,8 @@ std::ostream& operator<<(std::ostream& os, const S21Matrix& m) {
 }
 
 std::istream& operator>>(std::istream& is, const S21Matrix& m) {
-  for (int i = 0; i < m.getRows(); i++)
-    for (int j = 0; j < m.getCols(); j++)
+  for (int i = 0; i < m.getRows(); ++i)
+    for (int j = 0; j < m.getCols(); ++j)
       is >> m(i, j);
   return is;
 }

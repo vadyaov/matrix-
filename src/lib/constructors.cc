@@ -15,7 +15,7 @@ S21Matrix::S21Matrix(const int rows, const int cols) : rows_{rows}, cols_{cols} 
 
 S21Matrix::S21Matrix(const S21Matrix& other) : rows_{other.rows_},
                                                cols_{other.cols_},
-                                               matrix_{new double[rows_ * cols_]()} {
+                                               matrix_{new double[rows_ * cols_]} {
   std::cout << "Copy constructor is called" << std::endl;
   std::uninitialized_copy(other.matrix_, other.matrix_ + other.size(), matrix_);
 }
@@ -23,13 +23,12 @@ S21Matrix::S21Matrix(const S21Matrix& other) : rows_{other.rows_},
 S21Matrix::S21Matrix(S21Matrix&& other) noexcept : rows_{other.rows_}, cols_{other.cols_},
                                                          matrix_{other.matrix_} {
   std::cout << "Move constructor is called" << std::endl;
-  other.rows_ = 0; // лишнее действие?
-  other.cols_ = 0; // лишнее действие?
+  other.rows_ = 0;
+  other.cols_ = 0;
   other.matrix_ = nullptr;
 }
 
 S21Matrix::~S21Matrix() {
-  /* if (matrix_) */
     delete[] matrix_;
 }
 

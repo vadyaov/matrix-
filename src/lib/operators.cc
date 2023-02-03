@@ -13,13 +13,11 @@ S21Matrix operator-(const S21Matrix& a, const S21Matrix& b) {
 }
 
 S21Matrix operator*(const S21Matrix& a, const S21Matrix& b) {
-  std::cout << "non member operator* is called" << std::endl;
   S21Matrix res{a};
   return res *= b;
 }
 
 S21Matrix operator*(const S21Matrix& a, const double n) {
-  std::cout << "S21Matrix operator* is called" << std::endl;
   S21Matrix tmp{a};
   tmp.MulNumber(n);
   return tmp;
@@ -30,7 +28,6 @@ bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept {
 }
 
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
-  std::cout << "Copy operator= is called" << std::endl;
   if (rows_ != other.rows_)
     setRows(other.rows_);
   if (cols_ != other.cols_)
@@ -70,6 +67,7 @@ S21Matrix& operator*=(S21Matrix& a, const double n) noexcept {
 double& S21Matrix::operator()(int row, int col) const {
   if (row >= rows_ || col >= cols_ || row < 0 || col < 0)
     throw std::out_of_range("Incorrect index in S21Matrix& operator()(i, j)");
+
   return matrix_[col + cols_ * row];
 }
 
