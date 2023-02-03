@@ -11,14 +11,11 @@
 class S21Matrix {
   public:
     S21Matrix();
-    ~S21Matrix();
-    /* explicit - конструктор используется лишь для инициализации и явных приведений типа */
     explicit S21Matrix(const int, const int);
 
-    /* compiler error when constexpr. why ? */
-    /* constexpr */ int getRows() const noexcept;
-    /* constexpr */ int getCols() const noexcept;
-    /* constexpr */ int size() const noexcept;
+    int getRows() const noexcept;
+    int getCols() const noexcept;
+    int size() const noexcept;
 
     S21Matrix(const S21Matrix&);
     S21Matrix& operator=(const S21Matrix&);
@@ -31,34 +28,39 @@ class S21Matrix {
     void SubMatrix(const S21Matrix&);
     void MulNumber(const double) noexcept;
     void MulMatrix(const S21Matrix&);
-
     S21Matrix Transpose() const;
     S21Matrix CalcComplements() const;
     double Determinant() const;
     S21Matrix InverseMatrix() const;
 
-    S21Matrix& operator+=(const S21Matrix&);
-    S21Matrix& operator-=(const S21Matrix&);
-    S21Matrix& operator*=(const S21Matrix&);
     double& operator()(const int, const int) const;
-
-    S21Matrix operator-() const;
-    S21Matrix& operator*=(const double) noexcept;
 
     void setRows(const int);
     void setCols(const int);
     void resize();
 
+    ~S21Matrix();
   private:
     int rows_, cols_;
     double *matrix_;
 };
 
+// Определяю вне класса, чтобы минимизировать число функций, непосредственно манипулирующих
+// представлением объекта. Нужно стараться определять внутри класса только те методы, которые неизбежно
+// модифицируют зачение первого аргумента
+
+S21Matrix operator-(const S21Matrix& a);
+
+S21Matrix& operator+=(S21Matrix& a, const S21Matrix& b);
+S21Matrix& operator-=(S21Matrix& a, const S21Matrix& b);
+S21Matrix& operator*=(S21Matrix& a, const S21Matrix& b);
+S21Matrix& operator*=(S21Matrix& a, const double n) noexcept;
+
 S21Matrix operator+(const S21Matrix& left, const S21Matrix& right);
 S21Matrix operator-(const S21Matrix& left, const S21Matrix& right);
 S21Matrix operator*(const S21Matrix& left, const S21Matrix& right);
 S21Matrix operator*(const S21Matrix& left, const double n);
-bool operator==(const S21Matrix& a, const S21Matrix& b);
+bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept;
 
 // UNSAFE!!! HELP FUNCTIONS
 // the question is how to protect them from user ??

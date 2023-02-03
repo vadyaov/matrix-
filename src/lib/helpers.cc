@@ -1,20 +1,5 @@
 #include "../inc/s21_matrix_oop.h"
 
-// imho it would be better to be private function but task doesn't allow
-void S21Matrix::resize() {
-  S21Matrix tmp {rows_, cols_};
-  for (auto i = 0; i < rows_; i++)
-    for (auto j = 0; j < cols_; j++)
-      tmp(i, j) = this->operator()(i, j);
-
-  this->~S21Matrix();
-  matrix_ = new double[rows_ * cols_];
-
-  for (auto i = 0; i < rows_; i++)
-    for (auto j = 0; j < cols_; j++)
-      this->operator()(i, j) = tmp(i, j);
-}
-
 double multiply(int i, int j, const S21Matrix& left, const S21Matrix& right) {
   double ij{0.0};
   for (auto k = 0; k < left.getCols(); k++)
