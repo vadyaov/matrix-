@@ -42,7 +42,7 @@ double Det(const S21Matrix& other) {
   if (other.getRows() == 2) {
     det = other(0, 0) * other(1, 1) - other(0, 1) * other(1, 0);
   } else {
-    for (auto j = 0; j < other.getCols(); j++) {
+    for (auto j = 0; j < other.getCols(); ++j) {
       S21Matrix smaller = CreateSmaller(other, 0, j);
       det += std::pow(-1.0, j) * Det(smaller) * other(0, j);
     }
