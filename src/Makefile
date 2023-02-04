@@ -1,3 +1,13 @@
+CC := gcc
+LIB_NAME := s21_matrix_oop.a
+
+CXXFLAGS := -lstdc++ -Wall -Werror -Wextra -std=c++17 -pedantic -fanalyzer -g \
+						-pthread
+
+SRC_FILES := $(shell find ./lib -maxdepth 1 -name "*.cc")
+SRC_OBJS := $(addprefix ./lib/objects/, $(notdir $(SRC_FILES:.cc=.o)))
+SRC_INC := $(shell find ./inc -maxdepth 1 -name "*.h")
+
 CURR_DIR := .
 BUILD_DIR := $(CURR_DIR)/build
 CORE_DIR := $(CURR_DIR)/lib
@@ -8,7 +18,15 @@ MK := mkdir -p
 EXEC := S21Matrix.test
 ARCHIVE := $(CURR_DIR)/S21MAtrix
 
-all: install run
+all: $(LIB_NAME) #test
+
+$(LIB_NAME): $(SRC_OBJS) $(SRC_INC)
+	ar rc $@ $(SRC_OBJS)
+	ranlib $@
+
+$(SRC_OBJS): ./lib/objects%.o: ./lib%.cc $(SRC_INC)
+	@mkdir -p ./lib/objects
+	$(CC) $(CXXFLAGS) -o $@ -c $<
 
 install:
 	@$(MK) $(BUILD_DIR)
@@ -21,53 +39,8 @@ uninstall:
 run:
 	$(BUILD_DIR)/$(EXEC)
 
-dist: create_dirs cpy_files
-	tar cvzf $(ARCHIVE).tgz $(ARCHIVE)
-	mv $(ARCHIVE).tgz $(CURR_DIR)/..
-	$(RM) -r $(ARCHIVE)
-
-dvi:
-	makeinfo documentation.texi --html
-	open ./doc/index.html
-
-create_dirs:
-	@$(RM) -r $(ARCHIVE)
-	@$(MK) $(ARCHIVE)
-	@$(MK) $(ARCHIVE)/src
-	@$(MK) $(ARCHIVE)/src/core
-	@$(MK) $(ARCHIVE)/src/imgui
-	@$(MK) $(ARCHIVE)/src/shaders
-	@$(MK) $(ARCHIVE)/src/models
-	@$(MK) $(ARCHIVE)/src/core/tests
-
-cpy_files:
-	cp CMakeLists.txt $(ARCHIVE)/src
-	cp documentation.texi $(ARCHIVE)/src
-	cp Makefile $(ARCHIVE)/src
-	cp main.cpp $(ARCHIVE)/src
-	cp main.hpp $(ARCHIVE)/src
-	cp savefile.vimer $(ARCHIVE)/src
-	cp $(CURR_DIR)/core/*c $(ARCHIVE)/src/core
-	cp $(CURR_DIR)/core/*h $(ARCHIVE)/src/core
-	cp $(CURR_DIR)/core/Makefile $(ARCHIVE)/src/core
-	cp $(CURR_DIR)/core/tests/* $(ARCHIVE)/src/core/tests
-	cp $(CURR_DIR)/imgui/* $(ARCHIVE)/src/imgui
-	cp $(CURR_DIR)/models/* $(ARCHIVE)/src/models
-	cp $(CURR_DIR)/shaders/* $(ARCHIVE)/src/shaders
-
 tests:
-	@cd $(CORE_DIR) ; make test ; cd ./..
 
 gcov_report:
-	@cd $(CORE_DIR) ; make gcov_report ; cd ./..
 
 clean: uninstall
-	# @cd $(CORE_DIR) ; make clean ; cd ./..
-	# @$(RM) -r doc/
-	# @$(RM) imgui.ini
-	# @$(RM) ScreenShot.jpeg
-	# @$(RM) ScreenShot.bmp
-	# @$(RM) -r imgui/CMakeFiles/
-	# @$(RM) imgui/cmake_install.cmake
-	# @$(RM) imgui/Makefile
-	# @$(RM) imgui/libimgui.a

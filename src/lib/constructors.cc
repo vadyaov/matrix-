@@ -2,7 +2,7 @@
 
 S21Matrix::S21Matrix() : rows_{1},
                          cols_{1},
-                         matrix_{new double[1]()} {
+                         matrix_{new double()} {
   std::cout << "Default constructor is called" << std::endl;
 }
 

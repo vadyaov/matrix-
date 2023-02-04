@@ -25,12 +25,13 @@ SET_TARGET_PROPERTIES(s21_matrix_oop PROPERTIES PREFIX "")
 
 add_executable(
   S21MAtrix.test
-  ./tests/constructors_test.cc
+  ./tests/test.cc
+  ./tests/test_helpers.cc
 )
 target_link_libraries(
   S21MAtrix.test
-  GTest::gtest_main
   s21_matrix_oop
+  GTest::gtest_main
 )
 
 include(GoogleTest)
