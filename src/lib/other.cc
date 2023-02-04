@@ -35,8 +35,5 @@ void S21Matrix::resize(int Row, int Col) {
     for (auto j = 0; j < col; ++j)
       tmp(i, j) = operator()(i, j);
 
-  this->~S21Matrix();
-  matrix_ = new double[Row * Col]();
-
-  std::copy(tmp.matrix_, tmp.matrix_ + tmp.size(), matrix_);
+  std::swap(*this, tmp);
 }

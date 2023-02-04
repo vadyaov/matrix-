@@ -9,7 +9,7 @@ S21Matrix::S21Matrix() : rows_{1},
 S21Matrix::S21Matrix(const int rows, const int cols) : rows_{rows}, cols_{cols} {
   std::cout << "Param constructor is called for rows " << rows << " and cols " << cols << std::endl;
   if (rows_ < 0 || cols_ < 0)
-    throw std::invalid_argument("bad size in S21Matrix::S21Matrix(int, int)");
+    throw std::length_error("bad size in S21Matrix::S21Matrix(int, int)");
   matrix_ = new double[rows * cols]();
 }
 
@@ -29,6 +29,7 @@ S21Matrix::S21Matrix(S21Matrix&& other) noexcept : rows_{other.rows_}, cols_{oth
 }
 
 S21Matrix::~S21Matrix() {
+  std::cout << "Destructor is called" << std::endl;
     delete[] matrix_;
 }
 
