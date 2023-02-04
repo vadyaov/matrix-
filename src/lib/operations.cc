@@ -40,7 +40,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
   S21Matrix res{rows_, other.cols_};
   for (auto i = 0; i < res.rows_; ++i)
     for (auto j = 0; j < res.cols_; ++j)
-      res(i, j) = multiply(i, j, *this, other);
+      res(i, j) = multiply(*this, other, i, j);
 
   *this = res;
 }
