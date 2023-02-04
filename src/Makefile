@@ -1,6 +1,6 @@
 CURR_DIR := .
 BUILD_DIR := $(CURR_DIR)/build
-LOGIC_DIR := $(CURR_DIR)/core
+CORE_DIR := $(CURR_DIR)/lib
 
 RM := rm -f
 MK := mkdir -p
@@ -8,7 +8,7 @@ MK := mkdir -p
 EXEC := S21Matrix.test
 ARCHIVE := $(CURR_DIR)/S21MAtrix
 
-all: tests install run
+all: install run
 
 install:
 	@$(MK) $(BUILD_DIR)
@@ -56,13 +56,13 @@ cpy_files:
 	cp $(CURR_DIR)/shaders/* $(ARCHIVE)/src/shaders
 
 tests:
-	@cd $(LOGIC_DIR) ; make test ; cd ./..
+	@cd $(CORE_DIR) ; make test ; cd ./..
 
 gcov_report:
-	@cd $(LOGIC_DIR) ; make gcov_report ; cd ./..
+	@cd $(CORE_DIR) ; make gcov_report ; cd ./..
 
 clean: uninstall
-	# @cd $(LOGIC_DIR) ; make clean ; cd ./..
+	# @cd $(CORE_DIR) ; make clean ; cd ./..
 	# @$(RM) -r doc/
 	# @$(RM) imgui.ini
 	# @$(RM) ScreenShot.jpeg

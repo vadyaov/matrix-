@@ -7,15 +7,15 @@ void f(S21Matrix&& a) {
 
 int main() {
   try {
-  S21Matrix a {1, 2};
+  S21Matrix a {2, 2};
   /* S21Matrix b {3, 3}; */
 
-  /* std::cout << "a:" << std::endl; */
-  /* std::cin >> a; */
+  std::cout << "a:" << std::endl;
+  std::cin >> a;
 
-  S21Matrix b {a};
-
-  std::cout << "b:" << b;
+  a.setCols(1);
+  a.setRows(5);
+  std::cout << "a:\n" << a << std::endl;
 
   /* S21Matrix c {a + b}; */
 
