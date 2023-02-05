@@ -38,6 +38,7 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
 }
 
 S21Matrix& S21Matrix::operator=(S21Matrix&& other) noexcept {
+  std::cout << "Move operator= is called" << std::endl;
   std::swap(rows_, other.rows_);
   std::swap(cols_, other.cols_);
   std::swap(matrix_, other.matrix_);
@@ -72,7 +73,7 @@ double& S21Matrix::operator()(int row, int col) const {
 }
 
 S21Matrix operator-(const S21Matrix& a) {
-  S21Matrix tmp {a.getRows(), a.getCols()};
+  S21Matrix tmp {a};
   for (auto i = 0; i < tmp.getRows(); ++i)
     for (auto j = 0; j < tmp.getCols(); ++j)
       tmp(i, j) *= -1.0;

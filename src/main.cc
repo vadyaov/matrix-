@@ -8,20 +8,14 @@ void f(S21Matrix&& a) {
 int main() {
   try {
   S21Matrix a {2, 2};
-  /* S21Matrix b {3, 3}; */
+  S21Matrix b {2, 2};
 
-  std::cout << "a:" << std::endl;
-  std::cin >> a;
+  std::cin >> a >> b;
+  
+  S21Matrix c = a;
 
-  a.setCols(1);
-  a.setRows(5);
-  std::cout << "a:\n" << a << std::endl;
-
-  /* S21Matrix c {a + b}; */
-
-  /* std::cout << std::endl; */
-  /* std::cout << "a:" << std::endl; */
-  /* std::cout << a; */
+  a.SubMatrix(b);
+  std::cout << "a = \n" << a << std::endl;
 
   } catch (std::exception& e) {
     std::cerr << "Exception: " << e.what() << std::endl;

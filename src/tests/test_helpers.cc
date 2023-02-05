@@ -14,3 +14,18 @@ double GetRandomValue() {
   std::uniform_real_distribution<double> distribution(low,up);
   return distribution(generator);
 }
+
+void swap(S21Matrix& a, S21Matrix& b) {
+  S21Matrix tmp{std::move(a)};
+  a = std::move(b);
+  b = std::move(tmp);
+}
+
+S21Matrix CreateIdentity(const int row, const int col) {
+  S21Matrix ident {row, col};
+  for (auto i = 0; i < row; ++i)
+    for (auto j = 0; j < row; ++j)
+      if (i == j)
+        ident(i, j) = 1.0;
+  return ident;
+}

@@ -42,7 +42,7 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
     for (auto j = 0; j < res.cols_; ++j)
       res(i, j) = multiply(*this, other, i, j);
 
-  *this = res;
+  *this = std::move(res);
 }
 
 S21Matrix S21Matrix::Transpose() const {
@@ -54,7 +54,6 @@ S21Matrix S21Matrix::Transpose() const {
 }
 
 S21Matrix S21Matrix::CalcComplements() const {
-  // mb combine these 2 exceptions
   if (rows_ != cols_)
     throw std::runtime_error("not square matrix in S21Matrix::CalcComplements()");
   if (rows_ == 1)
@@ -88,16 +87,15 @@ double S21Matrix::Determinant() const {
 S21Matrix S21Matrix::InverseMatrix() const {
   double det = Determinant();
   if (std::fabs(det) < EPS)
-    throw std::runtime_error("this->Determinant() is 0 in S21Matrix::InverseMatrix()");
+    throw std::runtime_error("Determinant() is 0 in S21Matrix::InverseMatrix()");
 
   S21Matrix res;
   if (rows_ == 1) {
     res(0, 0) = 1.0 / det;
   } else {
-    S21Matrix transpose = Transpose();
-    S21Matrix calc_comp = transpose.CalcComplements();
+    S21Matrix calc_comp = Transpose().CalcComplements();
     calc_comp.MulNumber(1.0 / det);
-    res = calc_comp;
+    res = std::move(calc_comp);
   }
   return res;
 }
