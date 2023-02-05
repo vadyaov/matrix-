@@ -951,6 +951,74 @@ TEST(InverseMatrix, Exception) {
 
 /* -------------------------------------------------------- */
 
+/* -----------------------OPERATORS------------------------ */
+
+TEST(OperatorPlus, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+
+  S21Matrix c = a + b;
+
+  EXPECT_EQ(c.getRows(), 3);
+  EXPECT_EQ(c.getCols(), 3);
+
+  for (auto i = 0; i < c.getRows(); ++i)
+    for (auto j = 0; j < c.getCols(); ++j)
+      EXPECT_EQ(c(i, j), a(i, j) + b(i, j));
+}
+
+TEST(OperatorMinus, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+
+  S21Matrix c = a - b;
+
+  EXPECT_EQ(c.getRows(), 3);
+  EXPECT_EQ(c.getCols(), 3);
+
+  for (auto i = 0; i < c.getRows(); ++i)
+    for (auto j = 0; j < c.getCols(); ++j)
+      EXPECT_EQ(c(i, j), a(i, j) - b(i, j));
+}
+
+TEST(OperatorMulNum, Test) {
+  S21Matrix a {3, 3};
+
+  RandMatrix(a);
+  S21Matrix acpy {a};
+
+  a *= 2.0;
+  EXPECT_EQ(a.getRows(), 3);
+  EXPECT_EQ(a.getCols(), 3);
+
+  for (auto i = 0; i < a.getRows(); ++i)
+    for (auto j = 0; j < a.getCols(); ++j)
+      EXPECT_EQ(a(i, j), acpy(i, j) * 2.0);
+}
+
+/* TEST(OperatorMulMatrix, Test) { */
+/*   S21Matrix a {3, 3}; */
+
+/*   RandMatrix(a); */
+/*   S21Matrix acpy {a}; */
+
+/*   a *= 2.0; */
+/*   EXPECT_EQ(a.getRows(), 3); */
+/*   EXPECT_EQ(a.getCols(), 3); */
+
+/*   for (auto i = 0; i < a.getRows(); ++i) */
+/*     for (auto j = 0; j < a.getCols(); ++j) */
+/*       EXPECT_EQ(a(i, j), acpy(i, j) * 2.0); */
+/* } */
+
+/* -------------------------------------------------------- */
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
