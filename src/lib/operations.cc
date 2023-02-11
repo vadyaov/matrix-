@@ -1,15 +1,71 @@
 #include "../inc/s21_matrix_oop.h"
 
+static double Multiply(const S21Matrix& left, const S21Matrix& right, const int i, const int j) noexcept {
+  double ij{0.0};
+  for (int k = 0; k < left.GetCols(); ++k)
+    ij += left(i, k) * right(k, j);
+
+  return ij;
+}
+
+static inline S21Matrix SimpleMinor(const S21Matrix& other) noexcept {
+  S21Matrix tmp{2, 2};
+  tmp(0, 0) = other(1, 1);
+  tmp(0, 1) = -other(1, 0);
+  tmp(1, 0) = -other(0, 1);
+  tmp(1, 1) = other(0, 0);
+
+  return tmp;
+}
+
+static S21Matrix CreateSmaller(const S21Matrix& other, const int i, const int j) noexcept {
+  S21Matrix smaller {other.GetRows() - 1, other.GetCols() - 1};
+  const int sz = other.GetRows();
+  for (int k = 0, n = 0; k < sz; ++k) {
+    if (i == k) continue;
+    for (int l = 0, m = 0; l < sz; ++l) {
+      if (l == j) continue;
+      smaller(n, m) = other(k, l);
+      ++m;
+    }
+    ++n;
+  }
+
+  return smaller;
+}
+
+static double Det(const S21Matrix& other) noexcept {
+  double det = 0.0;
+  if (other.GetRows() == 2) {
+    det = other(0, 0) * other(1, 1) - other(0, 1) * other(1, 0);
+  } else {
+    for (int j = 0; j < other.GetCols(); ++j) {
+      S21Matrix smaller = CreateSmaller(other, 0, j);
+      det += std::pow(-1.0, j) * Det(smaller) * other(0, j);
+    }
+  }
+
+  return det;
+}
+
+static double CalcMinor(const S21Matrix& other, const int i, const int j) noexcept {
+  S21Matrix smaller = CreateSmaller(other, i, j);
+  double minor = Det(smaller);
+  return minor;
+}
+
 bool S21Matrix::EqMatrix(const S21Matrix& other) const noexcept {
   bool sz = cols_ == other.cols_ && rows_ == other.rows_;
-  if (sz) {
+
+  if (true == sz) {
     double *m1 = matrix_;
     double *m2 = other.matrix_;
-    double *end = matrix_ + size();
+    double *end = matrix_ + Size();
 
     while (m1 != end && sz)
       sz = std::fabs(*m1++ - *m2++) < EPS;
   }
+
   return sz;
 }
 
@@ -19,7 +75,7 @@ void S21Matrix::SumMatrix(const S21Matrix& other) {
 
   double *p = matrix_;
   double *q = other.matrix_;
-  double *end = p + size();
+  double *end = p + Size();
   while (p != end)
     *p++ += *q++;
 }
@@ -29,7 +85,7 @@ void S21Matrix::SubMatrix(const S21Matrix& other) {
 }
 
 void S21Matrix::MulNumber(const double n) noexcept {
-  for (auto i = 0; i < size(); ++i)
+  for (int i = 0; i < Size(); ++i)
     matrix_[i] *= n;
 }
 
@@ -38,18 +94,19 @@ void S21Matrix::MulMatrix(const S21Matrix& other) {
     throw std::runtime_error("Incorrect matrix dimensions for multiplication");
 
   S21Matrix res{rows_, other.cols_};
-  for (auto i = 0; i < res.rows_; ++i)
-    for (auto j = 0; j < res.cols_; ++j)
-      res(i, j) = multiply(*this, other, i, j);
+  for (int i = 0; i < res.rows_; ++i)
+    for (int j = 0; j < res.cols_; ++j)
+      res(i, j) = Multiply(*this, other, i, j);
 
   *this = std::move(res);
 }
 
 S21Matrix S21Matrix::Transpose() const {
   S21Matrix res{cols_, rows_};
-  for (auto i = 0; i < res.rows_; ++i)
-    for (auto j = 0; j < res.cols_; ++j)
+  for (int i = 0; i < res.rows_; ++i)
+    for (int j = 0; j < res.cols_; ++j)
       res(i, j) = operator()(j, i);
+
   return res;
 }
 
@@ -63,8 +120,8 @@ S21Matrix S21Matrix::CalcComplements() const {
   if (rows_ == 2)
     res = SimpleMinor(*this);
   else {
-    for (auto i = 0; i < rows_; ++i)
-      for (auto j = 0; j < cols_; ++j)
+    for (int i = 0; i < rows_; ++i)
+      for (int j = 0; j < cols_; ++j)
         res(i, j) = CalcMinor(*this, i, j) * std::pow(-1.0, i + j);
   }
 
@@ -97,6 +154,6 @@ S21Matrix S21Matrix::InverseMatrix() const {
     calc_comp.MulNumber(1.0 / det);
     res = std::move(calc_comp);
   }
+
   return res;
 }
-

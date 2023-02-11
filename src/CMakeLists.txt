@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.14)
-project(S21Matrix)
+project(S21Matrix VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
-
-add_compile_options(-Wall -Werror -Wextra -pedantic -g)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+set(CMAKE_BUILD_TYPE Release)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -12,27 +13,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+add_compile_options(-Wall -Werror -Wextra -Wpedantic)
 
-ADD_LIBRARY(s21_matrix_oop STATIC
+add_library(s21_matrix_oop STATIC
   ./lib/constructors.cc
   ./lib/operations.cc
   ./lib/operators.cc
-  ./lib/other.cc
-  ./lib/helpers.cc)
+  ./lib/other.cc)
 
-SET_TARGET_PROPERTIES(s21_matrix_oop PROPERTIES PREFIX "")
-
-add_executable(
-  S21MAtrix.test
-  ./tests/test.cc
-  ./tests/test_helpers.cc
-)
-target_link_libraries(
-  S21MAtrix.test
-  s21_matrix_oop
-  GTest::gtest_main
-)
-
+find_package(GTest REQUIRED)
 include(GoogleTest)
-gtest_discover_tests(S21MAtrix.test)
+enable_testing()
+
+file(GLOB SOURCES ./tests/*.cc)
+add_executable(tests ${SOURCES})
+
+target_link_libraries(
+  tests s21_matrix_oop GTest::gtest_main
+)
+gtest_discover_tests(tests)

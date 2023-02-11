@@ -1,8 +1,8 @@
 #include "test_help.h"
 
 void RandMatrix(S21Matrix& m) {
-  for (auto i = 0; i < m.getRows(); ++i)
-    for (auto j = 0; j < m.getCols(); ++j) {
+  for (auto i = 0; i < m.GetRows(); ++i)
+    for (auto j = 0; j < m.GetCols(); ++j) {
       m(i, j) = GetRandomValue();
     }
 }

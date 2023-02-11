@@ -6,30 +6,30 @@
 
 TEST(DefaultConstructorTest, Default0) {
   S21Matrix DefaultMatrix;
-  EXPECT_EQ(DefaultMatrix.getRows(), 1);
-  EXPECT_EQ(DefaultMatrix.getCols(), 1);
+  EXPECT_EQ(DefaultMatrix.GetRows(), 1);
+  EXPECT_EQ(DefaultMatrix.GetCols(), 1);
   EXPECT_EQ(DefaultMatrix(0, 0), 0.0);
 }
 
 TEST(DefaultConstructorTest, Default1) {
   S21Matrix DefaultMatrix {};
-  EXPECT_EQ(DefaultMatrix.getRows(), 1);
-  EXPECT_EQ(DefaultMatrix.getCols(), 1);
+  EXPECT_EQ(DefaultMatrix.GetRows(), 1);
+  EXPECT_EQ(DefaultMatrix.GetCols(), 1);
   EXPECT_EQ(DefaultMatrix(0, 0), 0.0);
 }
 
 TEST(DefaultConstructorTest, Default2) {
   S21Matrix DefaultMatrix = {};
-  EXPECT_EQ(DefaultMatrix.getRows(), 1);
-  EXPECT_EQ(DefaultMatrix.getCols(), 1);
+  EXPECT_EQ(DefaultMatrix.GetRows(), 1);
+  EXPECT_EQ(DefaultMatrix.GetCols(), 1);
   EXPECT_EQ(DefaultMatrix(0, 0), 0.0);
 }
 
 TEST(ParamConstructorTest, NormalParams1) {
   S21Matrix m(2, 2);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 2);
   EXPECT_EQ(cols, 2);
@@ -41,9 +41,9 @@ TEST(ParamConstructorTest, NormalParams1) {
 
 TEST(ParamConstructorTest, NormalParams2) {
   S21Matrix m(3, 9);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 3);
   EXPECT_EQ(cols, 9);
@@ -55,9 +55,9 @@ TEST(ParamConstructorTest, NormalParams2) {
 
 TEST(ParamConstructorTest, NormalParams3) {
   S21Matrix m(1, 1);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 1);
   EXPECT_EQ(cols, 1);
@@ -69,9 +69,9 @@ TEST(ParamConstructorTest, NormalParams3) {
 
 TEST(ParamConstructorTest, BigMatrix) {
   S21Matrix m(10, 10);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 10);
   EXPECT_EQ(cols, 10);
@@ -83,9 +83,9 @@ TEST(ParamConstructorTest, BigMatrix) {
 
 TEST(ParamConstructorTest, HugeMatrix) {
   S21Matrix m(100, 100);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 100);
   EXPECT_EQ(cols, 100);
@@ -98,9 +98,9 @@ TEST(ParamConstructorTest, HugeMatrix) {
 TEST(ParamConstructorTest, GiantMatrix) {
   try {
   S21Matrix m(1000000, 1000000);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 1000000);
   EXPECT_EQ(cols, 1000000);
@@ -114,9 +114,9 @@ TEST(ParamConstructorTest, GiantMatrix) {
 
 TEST(ParamConstructorTest, Corner1) {
   S21Matrix m(0, 3);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 0);
   EXPECT_EQ(cols, 3);
@@ -125,9 +125,9 @@ TEST(ParamConstructorTest, Corner1) {
 
 TEST(ParamConstructorTest, Corner2) {
   S21Matrix m(3, 0);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 3);
   EXPECT_EQ(cols, 0);
@@ -136,9 +136,9 @@ TEST(ParamConstructorTest, Corner2) {
 
 TEST(ParamConstructorTest, Corner3) {
   S21Matrix m(0, 0);
-  const auto rows = m.getRows();
-  const auto cols = m.getCols();
-  const auto sz = m.size();
+  const auto rows = m.GetRows();
+  const auto cols = m.GetCols();
+  const auto sz = m.Size();
 
   EXPECT_EQ(rows, 0);
   EXPECT_EQ(cols, 0);
@@ -174,16 +174,16 @@ TEST(ParamConstructorTest, Exception3) {
 
 TEST(CopyConstructor, Test1) {
   S21Matrix a;
-  const auto a_rows = a.getRows();
-  const auto a_cols = a.getCols();
-  const auto a_sz = a.size();
+  const auto a_rows = a.GetRows();
+  const auto a_cols = a.GetCols();
+  const auto a_sz = a.Size();
   
   RandMatrix(a);
 
   S21Matrix b {a};
-  const auto b_rows = b.getRows();
-  const auto b_cols = b.getCols();
-  const auto b_sz = b.size();
+  const auto b_rows = b.GetRows();
+  const auto b_cols = b.GetCols();
+  const auto b_sz = b.Size();
 
   EXPECT_EQ(a_rows, b_rows);
   EXPECT_EQ(a_cols, b_cols);
@@ -196,16 +196,16 @@ TEST(CopyConstructor, Test1) {
 
 TEST(CopyConstructor, Test2) {
   S21Matrix a {2, 2};
-  const auto a_rows = a.getRows();
-  const auto a_cols = a.getCols();
-  const auto a_sz = a.size();
+  const auto a_rows = a.GetRows();
+  const auto a_cols = a.GetCols();
+  const auto a_sz = a.Size();
   
   RandMatrix(a);
 
   S21Matrix b {a};
-  const auto b_rows = b.getRows();
-  const auto b_cols = b.getCols();
-  const auto b_sz = b.size();
+  const auto b_rows = b.GetRows();
+  const auto b_cols = b.GetCols();
+  const auto b_sz = b.Size();
 
   EXPECT_EQ(a_rows, b_rows);
   EXPECT_EQ(a_cols, b_cols);
@@ -218,16 +218,16 @@ TEST(CopyConstructor, Test2) {
 
 TEST(CopyConstructor, Test3) {
   S21Matrix a {5, 5};
-  const auto a_rows = a.getRows();
-  const auto a_cols = a.getCols();
-  const auto a_sz = a.size();
+  const auto a_rows = a.GetRows();
+  const auto a_cols = a.GetCols();
+  const auto a_sz = a.Size();
   
   RandMatrix(a);
 
   S21Matrix b {a};
-  const auto b_rows = b.getRows();
-  const auto b_cols = b.getCols();
-  const auto b_sz = b.size();
+  const auto b_rows = b.GetRows();
+  const auto b_cols = b.GetCols();
+  const auto b_sz = b.Size();
 
   EXPECT_EQ(a_rows, b_rows);
   EXPECT_EQ(a_cols, b_cols);
@@ -244,8 +244,8 @@ TEST(MoveConstructorOperator, Test1) {
   S21Matrix b {3, 3};
   RandMatrix(b);
 
-  const auto rows = a.getRows();
-  const auto cols = a.getCols();
+  const auto rows = a.GetRows();
+  const auto cols = a.GetCols();
 
   S21Matrix c {a};
   S21Matrix d {b};
@@ -265,8 +265,8 @@ TEST(MoveConstructorOperator, Test2) {
   S21Matrix b {5, 5};
   RandMatrix(b);
 
-  const auto rows = a.getRows();
-  const auto cols = a.getCols();
+  const auto rows = a.GetRows();
+  const auto cols = a.GetCols();
 
   S21Matrix c {a};
   S21Matrix d {b};
@@ -283,11 +283,11 @@ TEST(MoveConstructorOperator, Test2) {
 TEST(MoveConstructorOperator, Test3) {
   S21Matrix a {1, 3};
   S21Matrix b {std::move(a)};
-  EXPECT_EQ(a.getRows(), 0);
-  EXPECT_EQ(a.getCols(), 0);
-  EXPECT_EQ(b.getRows(), 1);
-  EXPECT_EQ(b.getCols(), 3);
-  EXPECT_EQ(b.size(), 3);
+  EXPECT_EQ(a.GetRows(), 0);
+  EXPECT_EQ(a.GetCols(), 0);
+  EXPECT_EQ(b.GetRows(), 1);
+  EXPECT_EQ(b.GetCols(), 3);
+  EXPECT_EQ(b.Size(), 3);
 }
 
 /* -------------------------------------------------------- */
@@ -343,8 +343,8 @@ TEST(SumMatrix, Test1) {
 
   a.SumMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) + b(i, j));
 }
 
@@ -359,8 +359,8 @@ TEST(SumMatrix, Test2) {
 
   a.SumMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) + b(i, j));
 }
 
@@ -375,8 +375,8 @@ TEST(SumMatrix, Test3) {
 
   a.SumMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) + b(i, j));
 }
 
@@ -421,8 +421,8 @@ TEST(SubMatrix, Test1) {
 
   a.SubMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) - b(i, j));
 }
 
@@ -437,8 +437,8 @@ TEST(SubMatrix, Test2) {
 
   a.SubMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) - b(i, j));
 }
 
@@ -453,8 +453,8 @@ TEST(SubMatrix, Test3) {
 
   a.SubMatrix(b);
 
-  for (auto i = 0; i != c.getRows(); ++i)
-    for (auto j = 0; j != c.getCols(); ++j)
+  for (auto i = 0; i != c.GetRows(); ++i)
+    for (auto j = 0; j != c.GetCols(); ++j)
       EXPECT_EQ(a(i, j), c(i, j) - b(i, j));
 }
 
@@ -491,8 +491,8 @@ TEST(SubMatrix, Exception2) {
 TEST(MulNumber, Test1) {
   S21Matrix a {3, 3};
   const double num = 3.3;
-  const auto row = a.getRows();
-  const auto col = a.getCols();
+  const auto row = a.GetRows();
+  const auto col = a.GetCols();
 
   RandMatrix(a);
   S21Matrix c{a};
@@ -507,8 +507,8 @@ TEST(MulNumber, Test1) {
 TEST(MulNumber, Test2) {
   S21Matrix a {30, 30};
   const double num = -1.28;
-  const auto row = a.getRows();
-  const auto col = a.getCols();
+  const auto row = a.GetRows();
+  const auto col = a.GetCols();
 
   RandMatrix(a);
   S21Matrix c{a};
@@ -523,8 +523,8 @@ TEST(MulNumber, Test2) {
 TEST(MulNumber, Test3) {
   S21Matrix a {5, 5};
   const double num = 3.5;
-  const auto row = a.getRows();
-  const auto col = a.getCols();
+  const auto row = a.GetRows();
+  const auto col = a.GetCols();
 
   RandMatrix(a);
   S21Matrix c{a};
@@ -566,8 +566,8 @@ TEST(MulMatrix, Test1) {
   res(1, 1) = 55;
   res(1, 2) = 58;
 
-  for (auto i = 0; i < a.getRows(); ++i)
-    for (auto j = 0; j < a.getCols(); ++j)
+  for (auto i = 0; i < a.GetRows(); ++i)
+    for (auto j = 0; j < a.GetCols(); ++j)
       EXPECT_EQ(std::fabs(a(i,j) - res(i,j)) < EPS, true);
 }
 
@@ -602,8 +602,8 @@ TEST(MulMatrix, Test2) {
   res(2, 1) = 0;
   res(2, 2) = 0.046;
 
-  for (auto i = 0; i < a.getRows(); ++i)
-    for (auto j = 0; j < a.getCols(); ++j)
+  for (auto i = 0; i < a.GetRows(); ++i)
+    for (auto j = 0; j < a.GetCols(); ++j)
       EXPECT_EQ(std::fabs(a(i,j) - res(i,j)) < EPS, true);
 }
 
@@ -650,11 +650,11 @@ TEST(Transpose, Test1) {
   exp(2, 0) = -5.05;
   exp(2, 1) = 2;
 
-  EXPECT_EQ(transp.getRows(), exp.getRows());
-  EXPECT_EQ(transp.getCols(), exp.getCols());
+  EXPECT_EQ(transp.GetRows(), exp.GetRows());
+  EXPECT_EQ(transp.GetCols(), exp.GetCols());
 
-  for (auto i = 0; i < exp.getRows(); ++i)
-    for (auto j = 0; j < exp.getCols(); ++j)
+  for (auto i = 0; i < exp.GetRows(); ++i)
+    for (auto j = 0; j < exp.GetCols(); ++j)
       EXPECT_EQ(transp(i, j), exp(i, j));
 }
 
@@ -677,11 +677,11 @@ TEST(Transpose, Test2) {
   exp(1, 1) = 4;
   exp(1, 2) = 6;
 
-  EXPECT_EQ(transp.getRows(), exp.getRows());
-  EXPECT_EQ(transp.getCols(), exp.getCols());
+  EXPECT_EQ(transp.GetRows(), exp.GetRows());
+  EXPECT_EQ(transp.GetCols(), exp.GetCols());
 
-  for (auto i = 0; i < exp.getRows(); ++i)
-    for (auto j = 0; j < exp.getCols(); ++j)
+  for (auto i = 0; i < exp.GetRows(); ++i)
+    for (auto j = 0; j < exp.GetCols(); ++j)
       EXPECT_EQ(transp(i, j), exp(i, j));
 }
 
@@ -710,11 +710,11 @@ TEST(CalcComplements, Test1) {
   exp(2, 1) = -2;
   exp(2, 2) = 4;
 
-  EXPECT_EQ(res.getRows(), exp.getRows());
-  EXPECT_EQ(res.getCols(), exp.getCols());
+  EXPECT_EQ(res.GetRows(), exp.GetRows());
+  EXPECT_EQ(res.GetCols(), exp.GetCols());
 
-  for (auto i = 0; i < exp.getRows(); ++i)
-    for (auto j = 0; j < exp.getCols(); ++j)
+  for (auto i = 0; i < exp.GetRows(); ++i)
+    for (auto j = 0; j < exp.GetCols(); ++j)
       EXPECT_EQ(res(i, j), exp(i, j));
 }
 
@@ -743,11 +743,11 @@ TEST(CalcComplements, Test2) {
   exp(2, 1) = -15.9511;
   exp(2, 2) = 26.4837;
 
-  EXPECT_EQ(res.getRows(), exp.getRows());
-  EXPECT_EQ(res.getCols(), exp.getCols());
+  EXPECT_EQ(res.GetRows(), exp.GetRows());
+  EXPECT_EQ(res.GetCols(), exp.GetCols());
 
-  for (auto i = 0; i < exp.getRows(); ++i)
-    for (auto j = 0; j < exp.getCols(); ++j)
+  for (auto i = 0; i < exp.GetRows(); ++i)
+    for (auto j = 0; j < exp.GetCols(); ++j)
       EXPECT_EQ(std::fabs(res(i, j) - exp(i, j)) < EPS, true);
 }
 
@@ -766,11 +766,11 @@ TEST(CalcComplements, Test3) {
   exp(1, 0) = -2.1;
   exp(1, 1) = 1.25;
 
-  EXPECT_EQ(res.getRows(), exp.getRows());
-  EXPECT_EQ(res.getCols(), exp.getCols());
+  EXPECT_EQ(res.GetRows(), exp.GetRows());
+  EXPECT_EQ(res.GetCols(), exp.GetCols());
 
-  for (auto i = 0; i < exp.getRows(); ++i)
-    for (auto j = 0; j < exp.getCols(); ++j)
+  for (auto i = 0; i < exp.GetRows(); ++i)
+    for (auto j = 0; j < exp.GetCols(); ++j)
       EXPECT_EQ(std::fabs(res(i, j) - exp(i, j)) < EPS, true);
 }
 
@@ -962,11 +962,11 @@ TEST(OperatorPlus, Test) {
 
   S21Matrix c = a + b;
 
-  EXPECT_EQ(c.getRows(), 3);
-  EXPECT_EQ(c.getCols(), 3);
+  EXPECT_EQ(c.GetRows(), 3);
+  EXPECT_EQ(c.GetCols(), 3);
 
-  for (auto i = 0; i < c.getRows(); ++i)
-    for (auto j = 0; j < c.getCols(); ++j)
+  for (auto i = 0; i < c.GetRows(); ++i)
+    for (auto j = 0; j < c.GetCols(); ++j)
       EXPECT_EQ(c(i, j), a(i, j) + b(i, j));
 }
 
@@ -979,11 +979,11 @@ TEST(OperatorMinus, Test) {
 
   S21Matrix c = a - b;
 
-  EXPECT_EQ(c.getRows(), 3);
-  EXPECT_EQ(c.getCols(), 3);
+  EXPECT_EQ(c.GetRows(), 3);
+  EXPECT_EQ(c.GetCols(), 3);
 
-  for (auto i = 0; i < c.getRows(); ++i)
-    for (auto j = 0; j < c.getCols(); ++j)
+  for (auto i = 0; i < c.GetRows(); ++i)
+    for (auto j = 0; j < c.GetCols(); ++j)
       EXPECT_EQ(c(i, j), a(i, j) - b(i, j));
 }
 
@@ -994,28 +994,250 @@ TEST(OperatorMulNum, Test) {
   S21Matrix acpy {a};
 
   a *= 2.0;
-  EXPECT_EQ(a.getRows(), 3);
-  EXPECT_EQ(a.getCols(), 3);
+  EXPECT_EQ(a.GetRows(), 3);
+  EXPECT_EQ(a.GetCols(), 3);
 
-  for (auto i = 0; i < a.getRows(); ++i)
-    for (auto j = 0; j < a.getCols(); ++j)
+  for (auto i = 0; i < a.GetRows(); ++i)
+    for (auto j = 0; j < a.GetCols(); ++j)
       EXPECT_EQ(a(i, j), acpy(i, j) * 2.0);
 }
 
-/* TEST(OperatorMulMatrix, Test) { */
-/*   S21Matrix a {3, 3}; */
+TEST(OperatorMulMat, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
 
-/*   RandMatrix(a); */
-/*   S21Matrix acpy {a}; */
+  a(0, 0) = 1.1;
+  a(0, 1) = 1.2;
+  a(0, 2) = 1.3;
 
-/*   a *= 2.0; */
-/*   EXPECT_EQ(a.getRows(), 3); */
-/*   EXPECT_EQ(a.getCols(), 3); */
+  a(1, 0) = 1.4;
+  a(1, 1) = 1.5;
+  a(1, 2) = 1.6;
 
-/*   for (auto i = 0; i < a.getRows(); ++i) */
-/*     for (auto j = 0; j < a.getCols(); ++j) */
-/*       EXPECT_EQ(a(i, j), acpy(i, j) * 2.0); */
-/* } */
+  a(2, 0) = 1.7;
+  a(2, 1) = 1.8;
+  a(2, 2) = 1.9;
+
+
+  b(0, 0) = 1.1;
+  b(0, 1) = 1.2;
+  b(0, 2) = 1.3;
+
+  b(1, 0) = 1.4;
+  b(1, 1) = 1.5;
+  b(1, 2) = 1.6;
+
+  b(2, 0) = 1.7;
+  b(2, 1) = 1.8;
+  b(2, 2) = 1.9;
+
+  S21Matrix c = a * b;
+
+  EXPECT_EQ(c.Size(), 9);
+
+  EXPECT_EQ(std::fabs(c(0,0) - 5.1) < EPS, true);
+  EXPECT_EQ(std::fabs(c(0,1) - 5.46) < EPS, true);
+  EXPECT_EQ(std::fabs(c(0,2) - 5.82) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,0) - 6.36) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,1) - 6.81) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,2) - 7.26) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,0) - 7.62) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,1) - 8.16) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,2) - 8.7) < EPS, true);;
+}
+
+TEST(OperatorMulNum1, Test) {
+  S21Matrix a {3, 3};
+
+  a(0, 0) = 1.1;
+  a(0, 1) = 1.2;
+  a(0, 2) = 1.3;
+
+  a(1, 0) = 1.4;
+  a(1, 1) = 1.5;
+  a(1, 2) = 1.6;
+
+  a(2, 0) = 1.7;
+  a(2, 1) = 1.8;
+  a(2, 2) = 1.9;
+
+  S21Matrix c = a * 4.5;
+
+  EXPECT_EQ(c.Size(), 9);
+
+  EXPECT_EQ(std::fabs(c(0,0) - 4.95) < EPS, true);
+  EXPECT_EQ(std::fabs(c(0,1) - 5.4) < EPS, true);
+  EXPECT_EQ(std::fabs(c(0,2) - 5.85) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,0) - 6.3) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,1) - 6.75) < EPS, true);
+  EXPECT_EQ(std::fabs(c(1,2) - 7.2) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,0) - 7.65) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,1) - 8.1) < EPS, true);
+  EXPECT_EQ(std::fabs(c(2,2) - 8.55) < EPS, true);
+}
+
+TEST(OperatorEq, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  a(0, 0) = 1.1;
+  a(0, 1) = 1.2;
+  a(0, 2) = 1.3;
+
+  a(1, 0) = 1.4;
+  a(1, 1) = 1.5;
+  a(1, 2) = 1.6;
+
+  a(2, 0) = 1.7;
+  a(2, 1) = 1.8;
+  a(2, 2) = 1.9;
+
+  b(0, 0) = 1.1;
+  b(0, 1) = 1.2;
+  b(0, 2) = 1.3;
+
+  b(1, 0) = 1.4;
+  b(1, 1) = 1.5;
+  b(1, 2) = 1.6;
+
+  b(2, 0) = 1.7;
+  b(2, 1) = 1.8;
+  b(2, 2) = 1.9;
+
+  EXPECT_EQ(a == b, true);
+}
+
+TEST(OperatorEq, Test1) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  a(0, 0) = 1.1;
+  a(0, 1) = 1.2;
+  a(0, 2) = 1.3;
+
+  a(1, 0) = 1.4;
+  a(1, 1) = 1.5;
+  a(1, 2) = 1.6;
+
+  a(2, 0) = 1.7;
+  a(2, 1) = 1.8;
+  a(2, 2) = 1.9;
+
+  b(0, 0) = 1.1;
+  b(0, 1) = 1.21;
+  b(0, 2) = 1.3;
+
+  b(1, 0) = 1.4;
+  b(1, 1) = 1.5;
+  b(1, 2) = 1.6;
+
+  b(2, 0) = 1.7;
+  b(2, 1) = 1.8;
+  b(2, 2) = 1.9;
+
+  EXPECT_EQ(a == b, false);
+}
+
+TEST(OerCopy, Test1) {
+  S21Matrix a {2, 2};
+  RandMatrix(a);
+
+  S21Matrix b {3, 3};
+  RandMatrix(b);
+
+  a = b;
+
+  EXPECT_EQ(a.EqMatrix(b), true);
+}
+
+TEST(OerCopy, Test2) {
+  S21Matrix a {2, 2};
+  RandMatrix(a);
+
+  S21Matrix b {3, 3};
+  RandMatrix(b);
+
+  b = a;
+
+  EXPECT_EQ(a.EqMatrix(b), true);
+}
+
+TEST(OperPlusEq, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+  S21Matrix c = a;
+
+  a += b;
+  EXPECT_EQ(a.Size(), 9);
+
+  for (int i = 0; i < a.GetRows(); ++i)
+    for (int j = 0; j < a.GetCols(); ++j)
+      EXPECT_EQ(a(i, j), b(i, j) + c(i, j));
+}
+
+TEST(OperMinusEq, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+  S21Matrix c = a;
+
+  a -= b;
+  EXPECT_EQ(a.Size(), 9);
+
+  for (int i = 0; i < a.GetRows(); ++i)
+    for (int j = 0; j < a.GetCols(); ++j)
+      EXPECT_EQ(a(i, j), c(i, j) - b(i, j));
+}
+
+TEST(OperMulEqMat, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+  S21Matrix c = a;
+  c.MulMatrix(b);
+
+  a *= b;
+  EXPECT_EQ(a.Size(), 9);
+
+  for (int i = 0; i < a.GetRows(); ++i)
+    for (int j = 0; j < a.GetCols(); ++j)
+      EXPECT_EQ(a(i, j), c(i, j));
+}
+
+TEST(OperMulEqNum, Test) {
+  S21Matrix a {3, 3};
+  S21Matrix b {3, 3};
+
+  RandMatrix(a);
+  RandMatrix(b);
+  S21Matrix c = a * 2.5;
+
+  a *= 2.5;
+  EXPECT_EQ(a.Size(), 9);
+
+  for (int i = 0; i < a.GetRows(); ++i)
+    for (int j = 0; j < a.GetCols(); ++j)
+      EXPECT_EQ(a(i, j), c(i, j));
+}
+
+TEST(UnaryMinus, Test) {
+  S21Matrix a {3, 3};
+  
+  RandMatrix(a);
+
+  S21Matrix b = -a;
+
+  for (int i = 0; i < a.GetRows(); ++i)
+    for (int j = 0; j < a.GetCols(); ++j)
+      EXPECT_EQ(a(i, j), -b(i, j));
+}
 
 /* -------------------------------------------------------- */
 

@@ -29,16 +29,15 @@ bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept {
 
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
   if (rows_ != other.rows_)
-    setRows(other.rows_);
+    SetRows(other.rows_);
   if (cols_ != other.cols_)
-    setCols(other.cols_);
+    SetCols(other.cols_);
 
-  std::copy(other.matrix_, other.matrix_ + other.size(), matrix_);
+  std::copy(other.matrix_, other.matrix_ + other.Size(), matrix_);
   return *this;
 }
 
 S21Matrix& S21Matrix::operator=(S21Matrix&& other) noexcept {
-  std::cout << "Move operator= is called" << std::endl;
   std::swap(rows_, other.rows_);
   std::swap(cols_, other.cols_);
   std::swap(matrix_, other.matrix_);
@@ -74,8 +73,8 @@ double& S21Matrix::operator()(int row, int col) const {
 
 S21Matrix operator-(const S21Matrix& a) {
   S21Matrix tmp {a};
-  for (auto i = 0; i < tmp.getRows(); ++i)
-    for (auto j = 0; j < tmp.getCols(); ++j)
+  for (int i = 0; i < tmp.GetRows(); ++i)
+    for (int j = 0; j < tmp.GetCols(); ++j)
       tmp(i, j) *= -1.0;
   return tmp;
 }
