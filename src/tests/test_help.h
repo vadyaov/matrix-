@@ -1,6 +1,6 @@
-#include "../inc/s21_matrix_oop.h"
-
 #include <random>
+
+#include "../inc/s21_matrix_oop.h"
 
 void RandMatrix(S21Matrix&);
 double GetRandomValue();

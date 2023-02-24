@@ -1,13 +1,13 @@
 #include "../inc/s21_matrix_oop.h"
 
 S21Matrix operator+(const S21Matrix& a, const S21Matrix& b) {
-  S21Matrix res {a};
+  S21Matrix res{a};
   res.SumMatrix(b);
   return res;
 }
 
 S21Matrix operator-(const S21Matrix& a, const S21Matrix& b) {
-  S21Matrix res {a};
+  S21Matrix res{a};
   res.SubMatrix(b);
   return res;
 }
@@ -28,12 +28,10 @@ bool operator==(const S21Matrix& a, const S21Matrix& b) noexcept {
 }
 
 S21Matrix& S21Matrix::operator=(const S21Matrix& other) {
-  if (rows_ != other.rows_)
-    SetRows(other.rows_);
-  if (cols_ != other.cols_)
-    SetCols(other.cols_);
+  if (rows_ != other.rows_) set_rows(other.rows_);
+  if (cols_ != other.cols_) set_cols(other.cols_);
 
-  std::copy(other.matrix_, other.matrix_ + other.Size(), matrix_);
+  std::copy(other.matrix_, other.matrix_ + other.size(), matrix_);
   return *this;
 }
 
@@ -72,9 +70,8 @@ double& S21Matrix::operator()(int row, int col) const {
 }
 
 S21Matrix operator-(const S21Matrix& a) {
-  S21Matrix tmp {a};
-  for (int i = 0; i < tmp.GetRows(); ++i)
-    for (int j = 0; j < tmp.GetCols(); ++j)
-      tmp(i, j) *= -1.0;
+  S21Matrix tmp{a};
+  for (int i = 0; i < tmp.get_rows(); ++i)
+    for (int j = 0; j < tmp.get_cols(); ++j) tmp(i, j) *= -1.0;
   return tmp;
 }

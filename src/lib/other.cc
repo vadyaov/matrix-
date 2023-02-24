@@ -1,39 +1,36 @@
 #include "../inc/s21_matrix_oop.h"
 
-int S21Matrix::GetRows() const noexcept { return rows_; }
+static void Resize(S21Matrix& m, const int r, const int c) {
+  S21Matrix tmp{r, c};
+  const int row = r < m.get_rows() ? r : m.get_rows();
+  const int col = c < m.get_cols() ? c : m.get_cols();
 
-int S21Matrix::GetCols() const noexcept { return cols_; }
+  for (int i = 0; i < row; ++i)
+    for (int j = 0; j < col; ++j) tmp(i, j) = m(i, j);
 
-int S21Matrix::Size() const noexcept { return rows_ * cols_; }
+  std::swap(m, tmp);
+}
 
-void S21Matrix::SetRows(const int rows) {
-  if (rows <= 0)
-    throw std::logic_error("bad rows in setRows()");
+int S21Matrix::get_rows() const noexcept { return rows_; }
 
-  else if (rows != rows_) {
-    Resize(rows, cols_);
+int S21Matrix::get_cols() const noexcept { return cols_; }
+
+int S21Matrix::size() const noexcept { return rows_ * cols_; }
+
+void S21Matrix::set_rows(const int rows) {
+  if (rows <= 0) throw std::logic_error("bad rows in setRows()");
+
+  if (rows != rows_) {
+    Resize(*this, rows, cols_);
     rows_ = rows;
   }
 }
 
-void S21Matrix::SetCols(const int cols) {
-  if (cols <= 0)
-    throw std::logic_error("bad cols in setCols()");
+void S21Matrix::set_cols(const int cols) {
+  if (cols <= 0) throw std::logic_error("bad cols in setCols()");
 
-  else if (cols != cols_) {
-    Resize(rows_, cols);
+  if (cols != cols_) {
+    Resize(*this, rows_, cols);
     cols_ = cols;
   }
-}
-
-void S21Matrix::Resize(const int Row, const int Col) {
-  S21Matrix tmp {Row, Col};
-  int row = Row < rows_ ? Row : rows_;
-  int col = Col < cols_ ? Col : cols_;
-
-  for (int i = 0; i < row; ++i)
-    for (int j = 0; j < col; ++j)
-      tmp(i, j) = operator()(i, j);
-
-  std::swap(*this, tmp);
 }

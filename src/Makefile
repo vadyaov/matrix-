@@ -12,5 +12,13 @@ test: $(LIB)
 	$(MAKE) -C $(BUILD_DIR) tests
 	./build/tests
 
+clang:
+	clang-format -n lib/*.cc inc/*.h tests/*
+
+valgrind:
+	valgrind --leak-check=full ./build/tests
+
 clean:
 	@rm -rf $(BUILD_DIR)
+
+.PHONY: all test clang valgrind clean
